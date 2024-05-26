@@ -54,7 +54,7 @@ Research/obj/
 
 # Logs and data files
 Results/
-Data/
+/Data/
 Backtests/
 Storage/
 report.html
