@@ -18,7 +18,7 @@ class DataAggregator:
         if self.live_mode:
             self.calculate_daily_bar_from_minute_data()
         else:
-            self.daily_data = self.history(self.symbol, 1, Resolution.Daily)
+            self.daily_data = self.algorithm.History(self.symbol, 1, Resolution.Daily)
             self.convert_to_trade_bars(self.daily_data)
 
     def calculate_daily_bar_from_minute_data(self):

@@ -8,9 +8,9 @@ class TradingStrategy(QCAlgorithm):
     def Initialize(self):
         self.initializer = AlgorithmInitializer(self)
         self.initializer.initialize()
+        self.data_handler = DataHandler(self)
 
     def OnData(self, data):
-        self.data_handler = DataHandler(self)
         self.data_handler.on_data(data)
 
     def UpdateDailyData(self):
