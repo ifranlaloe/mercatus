@@ -1,0 +1,89 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Lean Algorithmic Trading Engine specific files
+Launcher/bin/
+Launcher/obj/
+Algorithm/bin/
+Algorithm/obj/
+Tests/bin/
+Tests/obj/
+Research/bin/
+Research/obj/
+
+# Logs and data files
+Results/
+Data/
+Backtests/
+Storage/
+report.html
+
+# User-specific config
+config.json
+
+# IDE specific files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code specific
+.vscode/
+.history/
+.vscode-test/
+
+# JetBrains specific
+.idea/
+.idea_modules/
+
+# Visual Studio specific
+.vs/
+*.vcxproj
+*.vcxproj.filters
