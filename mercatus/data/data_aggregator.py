@@ -2,7 +2,8 @@ import pandas as pd
 from AlgorithmImports import *
 
 class DataAggregator:
-    def __init__(self, symbol, live_mode):
+    def __init__(self, algorithm, symbol, live_mode):
+        self.algorithm = algorithm
         self.symbol = symbol
         self.live_mode = live_mode
         self.minute_data = []

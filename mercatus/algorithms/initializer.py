@@ -10,8 +10,13 @@ class AlgorithmInitializer:
         self.algorithm.SetEndDate(2023, 12, 31)
         self.algorithm.SetCash(100000)
         
-        self.algorithm.spy = self.algorithm.AddEquity("SPY", Resolution.Minute if self.algorithm.LiveMode else Resolution.Daily).Symbol
-        self.algorithm.data_aggregator = DataAggregator(self.algorithm.spy, self.algorithm.LiveMode)
+        # Set resolution based on mode
+        resolution = Resolution.Minute
+        if self.algorithm.LiveMode:
+            resolution = Resolution.Tick
+        
+        self.algorithm.spy = self.algorithm.AddEquity("SPY", resolution).Symbol
+        self.algorithm.data_aggregator = DataAggregator(self.algorithm, self.algorithm.spy, self.algorithm.LiveMode)
 
         self.algorithm.Schedule.On(self.algorithm.DateRules.EveryDay(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.UpdateDailyData)
         self.algorithm.Schedule.On(self.algorithm.DateRules.WeekEnd(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.UpdateWeeklyData)
