@@ -1,9 +1,12 @@
-from data.data_aggregator import DataAggregator
+from AlgorithmImports import *
+from data.data_resampler import DataResampler
 
 class MonthAggregator:
     def __init__(self, algorithm):
         self.algorithm = algorithm
-        self.data_aggregator = DataAggregator(self.algorithm, self.algorithm.spy, self.algorithm.LiveMode)
+        self.symbol = algorithm.spy  # Assuming spy is the symbol of interest
+        self.monthly_data = []
+        self.data_resampler = DataResampler(self.symbol)
 
     def update(self):
-        self.data_aggregator.update_monthly_data()
+        self.monthly_data = self.data_resampler.resample_data(self.algorithm.day_aggregator.daily_data, 'M')
