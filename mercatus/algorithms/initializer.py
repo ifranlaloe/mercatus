@@ -1,5 +1,7 @@
 from AlgorithmImports import *
-from data.data_aggregator import DataAggregator
+from data.day_aggregator import DayAggregator
+from data.week_aggregator import WeekAggregator
+from data.month_aggregator import MonthAggregator
 
 class AlgorithmInitializer:
     def __init__(self, algorithm):
@@ -16,8 +18,12 @@ class AlgorithmInitializer:
             resolution = Resolution.Tick
         
         self.algorithm.spy = self.algorithm.AddEquity("SPY", resolution).Symbol
-        self.algorithm.data_aggregator = DataAggregator(self.algorithm, self.algorithm.spy, self.algorithm.LiveMode)
+        
+        # Initialize aggregators
+        self.algorithm.day_aggregator = DayAggregator(self.algorithm)
+        self.algorithm.week_aggregator = WeekAggregator(self.algorithm)
+        self.algorithm.month_aggregator = MonthAggregator(self.algorithm)
 
-        self.algorithm.Schedule.On(self.algorithm.DateRules.EveryDay(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.UpdateDailyData)
-        self.algorithm.Schedule.On(self.algorithm.DateRules.WeekEnd(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.UpdateWeeklyData)
-        self.algorithm.Schedule.On(self.algorithm.DateRules.MonthEnd(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.UpdateMonthlyData)
+        self.algorithm.Schedule.On(self.algorithm.DateRules.EveryDay(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.day_aggregator.update)
+        self.algorithm.Schedule.On(self.algorithm.DateRules.WeekEnd(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.week_aggregator.update)
+        self.algorithm.Schedule.On(self.algorithm.DateRules.MonthEnd(self.algorithm.spy), self.algorithm.TimeRules.AfterMarketOpen(self.algorithm.spy, 1), self.algorithm.month_aggregator.update)

@@ -1,9 +1,12 @@
 from AlgorithmImports import *
 from algorithms.initializer import AlgorithmInitializer
 from algorithms.data_handler import DataHandler
-from data.data_aggregator import DataAggregator
 
 class TradingStrategy(QCAlgorithm):
+    """
+    The main entrypoint of the Lean project. After trial and error it was determined that the QCAlgorithm
+    is required to be a part of the main.py
+    """    
 
     def Initialize(self):
         self.initializer = AlgorithmInitializer(self)
@@ -12,12 +15,3 @@ class TradingStrategy(QCAlgorithm):
 
     def OnData(self, data):
         self.data_handler.on_data(data)
-
-    def UpdateDailyData(self):
-        self.data_aggregator.update_daily_data()
-
-    def UpdateWeeklyData(self):
-        self.data_aggregator.update_weekly_data()
-
-    def UpdateMonthlyData(self):
-        self.data_aggregator.update_monthly_data()
