@@ -7,7 +7,7 @@ class DataHandler:
             self.algorithm.Debug("No data for SPY")
             return
 
-        self.algorithm.data_aggregator.collect_minute_data(data)
+        self.algorithm.day_aggregator.data_aggregator.collect_minute_data(data)
         
         if not self.algorithm.Portfolio.Invested:
             self.algorithm.SetHoldings("SPY", 1)
