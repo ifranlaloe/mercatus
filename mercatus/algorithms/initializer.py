@@ -1,7 +1,7 @@
-from algorithms.algorithm_settings import AlgorithmSettings
-from algorithms.resolution_settings import ResolutionSettings
-from algorithms.equity_initializer import EquityInitializer
-from algorithms.aggregator_initializer import AggregatorInitializer
+from algorithms.initializers.algorithm_settings import AlgorithmSettings
+from algorithms.initializers.resolution_settings import ResolutionSettings
+from algorithms.initializers.equity_initializer import EquityInitializer
+from algorithms.initializers.aggregator_initializer import AggregatorInitializer
 
 class AlgorithmInitializer:
     def __init__(self, algorithm):
