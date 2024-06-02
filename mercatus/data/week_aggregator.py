@@ -1,4 +1,4 @@
-from data_resampler import resample_data
+from data.data_resampler import resample_data
 from AlgorithmImports import *
 
 class WeekAggregator:

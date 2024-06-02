@@ -11,7 +11,7 @@ class MinuteDataCollector:
         minute_data (list): A list to store the collected minute data.
     """
 
-    def __init__(self, algorithm, symbol):
+    def __init__(self):
         """
         Initializes the MinuteDataCollector with the given algorithm and symbol.
 
@@ -19,8 +19,6 @@ class MinuteDataCollector:
             algorithm (QCAlgorithm): The trading algorithm instance.
             symbol (Symbol): The symbol for which to collect minute data.
         """
-        self.algorithm = algorithm
-        self.symbol = symbol
         self.minute_data = []
 
     def collect_minute_data(self, data):
@@ -33,5 +31,4 @@ class MinuteDataCollector:
         Returns:
             None
         """
-        if data.Bars.ContainsKey(self.symbol):
-            self.minute_data.append(data[self.symbol])
+        self.minute_data.append(data)

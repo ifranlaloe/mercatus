@@ -18,7 +18,8 @@ class AlgorithmInitializer:
 
         # Add equity
         equity_initializer = EquityInitializer(self.algorithm)
-        self.algorithm.spy = equity_initializer.add_equity("SPY", resolution)
+        for key, symbol in equity_initializer.symbols.items():
+            equity_initializer.add_equity(symbol.symbol_name, resolution)
 
         # Initialize and schedule aggregators
         aggregator_initializer = AggregatorInitializer(self.algorithm)
