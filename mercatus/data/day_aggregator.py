@@ -1,27 +1,61 @@
-
-"""
-Module for aggregating daily data.
-
-This module provides functionalities for aggregating data on a daily basis.
-"""
-
+from data_resampler import resample_data
 from AlgorithmImports import *
-from data.minute_data_collector import MinuteDataCollector
-from data.data_resampler import DataResampler
 
 class DayAggregator:
+    """
+    Aggregates incoming tick or minute data into daily trade bars.
+
+    Attributes:
+        algorithm (QCAlgorithm): The trading algorithm instance.
+        daily_bars (dict): A dictionary to store aggregated daily bars for each symbol.
+    """
+
     def __init__(self, algorithm):
+        """
+        Initializes the DayAggregator with the given algorithm.
+
+        Args:
+            algorithm (QCAlgorithm): The trading algorithm instance.
+        """
         self.algorithm = algorithm
-        self.symbol = algorithm.spy  # Assuming spy is the symbol of interest
-        self.live_mode = algorithm.LiveMode
-        self.daily_data = []
-        self.minute_data_collector = MinuteDataCollector(algorithm, self.symbol)
-        self.data_resampler = DataResampler(self.symbol)
+        self.daily_bars = {}
 
-    def update(self):
-        if self.live_mode:
-            self.daily_data = self.data_resampler.calculate_daily_bar_from_minute_data(self.minute_data_collector.minute_data)
-        else:
-            historical_data = self.algorithm.History(self.symbol, 1, Resolution.Daily)
-            self.daily_data = self.data_resampler.convert_to_trade_bars(historical_data)
+    def update(self, data):
+        """
+        Updates the daily bars with incoming data.
 
+        Args:
+            data (Slice): The current data slice.
+
+        Returns:
+            None
+        """
+        for symbol, bars in data.Bars.items():
+            if symbol not in self.daily_bars:
+                self.daily_bars[symbol] = []
+
+            resampled_df = resample_data(bars, 'D')
+
+            for idx, row in resampled_df.iterrows():
+                trade_bar = TradeBar(
+                    Time=idx,
+                    Open=row['open'],
+                    High=row['high'],
+                    Low=row['low'],
+                    Close=row['close'],
+                    Volume=row['volume'],
+                    Symbol=symbol
+                )
+                self.daily_bars[symbol].append(trade_bar)
+
+    def get_daily_bars(self, symbol):
+        """
+        Retrieves the aggregated daily bars for a given symbol.
+
+        Args:
+            symbol (Symbol): The symbol for which to retrieve the daily bars.
+
+        Returns:
+            list: A list of aggregated daily trade bars.
+        """
+        return self.daily_bars.get(symbol, [])

@@ -1,37 +1,33 @@
-
-"""
-Module for resampling data.
-
-This module provides functionalities for resampling data to different time frames.
-"""
-
 import pandas as pd
-from AlgorithmImports import *
 
-class DataResampler:
-    def __init__(self, symbol):
-        self.symbol = symbol
+def resample_data(bars, freq):
+    """
+    Resamples the given trade bars to the specified frequency.
 
-    def calculate_daily_bar_from_minute_data(self, minute_data):
-        if not minute_data:
-            return []
-        df = pd.DataFrame([[
-            bar.Time, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume
-        ] for bar in minute_data], columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df.set_index('Time', inplace=True)
-        daily_data = df.resample('D').agg({'Open': 'first', 'High': 'max', 'Low': 'min', 'Close': 'last', 'Volume': 'sum'})
-        return [TradeBar(index, self.symbol, row['Open'], row['High'], row['Low'], row['Close'], row['Volume']) for index, row in daily_data.iterrows()]
+    Args:
+        bars (list of TradeBar): The trade bars to resample.
+        freq (str): The frequency string for resampling (e.g., 'D' for daily, 'W' for weekly).
 
-    def resample_data(self, data, period):
-        if not data:
-            return []
-        df = pd.DataFrame([[
-            bar.Time, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume
-        ] for bar in data], columns=['Time', 'Open', 'High', 'Low', 'Close', 'Volume'])
-        df.set_index('Time', inplace=True)
-        resampled_data = df.resample(period).agg({'Open': 'first', 'High': 'max', 'Low': 'min', 'Close': 'last', 'Volume': 'sum'})
-        return [TradeBar(index, self.symbol, row['Open'], row['High'], row['Low'], row['Close'], row['Volume']) for index, row in resampled_data.iterrows()]
+    Returns:
+        pd.DataFrame: A DataFrame with the resampled trade bars.
+    """
+    df = pd.DataFrame({
+        'time': [bar.Time for bar in bars],
+        'open': [bar.Open for bar in bars],
+        'high': [bar.High for bar in bars],
+        'low': [bar.Low for bar in bars],
+        'close': [bar.Close for bar in bars],
+        'volume': [bar.Volume for bar in bars]
+    })
 
-    def convert_to_trade_bars(self, historical_data):
-        return [TradeBar(bar.Time, self.symbol, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume) for bar in historical_data]
-
+    df.set_index('time', inplace=True)
+    
+    resampled_df = df.resample(freq).agg({
+        'open': 'first',
+        'high': 'max',
+        'low': 'min',
+        'close': 'last',
+        'volume': 'sum'
+    }).dropna()
+    
+    return resampled_df
