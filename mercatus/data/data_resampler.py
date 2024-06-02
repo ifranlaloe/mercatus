@@ -1,3 +1,10 @@
+
+"""
+Module for resampling data.
+
+This module provides functionalities for resampling data to different time frames.
+"""
+
 import pandas as pd
 from AlgorithmImports import *
 
@@ -27,3 +34,4 @@ class DataResampler:
 
     def convert_to_trade_bars(self, historical_data):
         return [TradeBar(bar.Time, self.symbol, bar.Open, bar.High, bar.Low, bar.Close, bar.Volume) for bar in historical_data]
+

@@ -1,3 +1,10 @@
+
+"""
+Module for aggregating monthly data.
+
+This module provides functionalities for aggregating data on a monthly basis.
+"""
+
 from AlgorithmImports import *
 from data.data_resampler import DataResampler
 
@@ -10,3 +17,4 @@ class MonthAggregator:
 
     def update(self):
         self.monthly_data = self.data_resampler.resample_data(self.algorithm.day_aggregator.daily_data, 'M')
+

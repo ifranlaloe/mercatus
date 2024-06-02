@@ -1,3 +1,10 @@
+
+"""
+Module for aggregating daily data.
+
+This module provides functionalities for aggregating data on a daily basis.
+"""
+
 from AlgorithmImports import *
 from data.minute_data_collector import MinuteDataCollector
 from data.data_resampler import DataResampler
@@ -17,3 +24,4 @@ class DayAggregator:
         else:
             historical_data = self.algorithm.History(self.symbol, 1, Resolution.Daily)
             self.daily_data = self.data_resampler.convert_to_trade_bars(historical_data)
+
