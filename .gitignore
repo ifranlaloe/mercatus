@@ -87,3 +87,6 @@ Thumbs.db
 .vs/
 *.vcxproj
 *.vcxproj.filters
+
+# Archives
+.zip
