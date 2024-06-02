@@ -1,0 +1,6 @@
+Here's my project. I would like to develop it further. Can you read and understand all the files? Especially the readme.md. This project makes use of the Lean CLI by QuantConnect:
+https://www.quantconnect.com/docs/v2/writing-algorithms
+
+Also take a look at the main.py. This file is the entry point of the project.
+
+Respond with OK when you're done.
