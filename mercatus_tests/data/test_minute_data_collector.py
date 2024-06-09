@@ -1,5 +1,5 @@
 import unittest
-from mercatus.algorithms.symbol import Symbol
+from mercatus.data.symbol import Symbol
 
 class TestMinuteDataCollector(unittest.TestCase):
 

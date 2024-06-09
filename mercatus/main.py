@@ -1,13 +1,17 @@
 from AlgorithmImports import *
-from algorithms.initializer import AlgorithmInitializer
+from algorithms.algorithm_initializer import AlgorithmInitializer
 from algorithms.data_handler import DataHandler
 
-class TradingStrategy(QCAlgorithm):
+# main.py
+class Main(QCAlgorithm):
     def Initialize(self):
-        self.initializer = AlgorithmInitializer(self)
-        self.initializer.initialize()
-        self.data_handler = DataHandler(self)
-        # Other initialization code
+        # Initialize the algorithm using AlgorithmInitializer
+        initializer = AlgorithmInitializer(self)
+        initializer.initialize()
+
+        # Set the data handler from the initializer
+        self.data_handler = initializer.data_handler
 
     def OnData(self, data):
-        self.data_handler.on_data(data)
+        # Delegate OnData handling to the DataHandler
+        self.data_handler.OnData(data)

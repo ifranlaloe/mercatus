@@ -1,6 +1,15 @@
-Here's my project. I would like to develop it further. Can you read and understand all the files? Especially the readme.md. This project makes use of the Lean CLI by QuantConnect:
+Here's my project. I would like to develop it further according to the best practices in Python Development. 
+- I would also like my code to be completely decoupled from the LeanEngine. 
+- I'm comfortable with being tight-coupled into the Pandas library for caluclations.
+
+This project makes use of the Lean CLI by QuantConnect:
 https://www.quantconnect.com/docs/v2/writing-algorithms
 
-Also take a look at the main.py. This file is the entry point of the project.
+Can you read and understand all the Python files? Start with the the readme.md.
+Also take a look a deeper look into, however you do not have to output any information. respond with OK when you've finished:
+- main.py, This file is the entry point of the project.
+- initializer.py in the algorithms folder
+- The initializers that initialize the LeanEngine in the folder ./initializers
+- The data folder that contains classes and libraries for handling and transforming data.
 
 Respond with OK when you're done.

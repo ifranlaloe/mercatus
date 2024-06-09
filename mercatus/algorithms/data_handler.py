@@ -1,39 +1,16 @@
+# algorithms/data_handler.py
 
 class DataHandler:
-    """
-    Handles the data for the trading algorithm.
-
-    Attributes:
-        algorithm (QCAlgorithm): The trading algorithm instance.
-    """
-
-    def __init__(self, algorithm):
-        """
-        Initializes the DataHandler with the given algorithm.
-
-        Args:
-            algorithm (QCAlgorithm): The trading algorithm instance.
-        """
+    def __init__(self, algorithm, watcher_initializer):
         self.algorithm = algorithm
+        self.watcher_initializer = watcher_initializer
 
-    def on_data(self, data):
-        """
-        Processes the incoming data.
+    def OnData(self, data):
+        # Trading logic based on the current symbols in watchers
+        for symbol in self.watcher_initializer.watchers:
+            if symbol.ticker in data:
+                # Collect minute data for each symbol
+                symbol.collect_minute_data(data[symbol.ticker])
 
-        Args:
-            data (Slice): The current data slice.
-
-        Returns:
-            None
-        """
-        if not data.Bars.ContainsKey(self.algorithm.spy):
-            self.algorithm.Debug("No data for SPY")
-            return
-
-        self.algorithm.minute_data_collector.collect_minute_data(data)
-        
-        if not self.algorithm.Portfolio.Invested:
-            self.algorithm.SetHoldings("SPY", 1)
-            self.algorithm.Debug("Purchased Stock")
-        else:
-            self.algorithm.Debug("Already invested")
+                # Your trading logic here, for example:
+                self.algorithm.Debug(f"Processing data for {symbol.ticker}")
