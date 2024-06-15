@@ -1,13 +1,17 @@
 # algorithms/initializers/watcher_initializer.py
 
 from data.symbol import Symbol
+from AlgorithmImports import Resolution
 
 class WatcherInitializer:
     def __init__(self, algorithm):
-        self.algorithm = algorithm
+        self.algorithm = algorithm        
         self.watchers = set()
 
     def initialize(self):
+        # Add SPY data
+        self.algorithm.spy = self.algorithm.AddEquity("SPY", self.get_resolution()).Symbol
+
         # Call UpdateWatchers once at startup
         self.UpdateWatchers()
         
@@ -17,6 +21,9 @@ class WatcherInitializer:
             self.algorithm.TimeRules.AfterMarketOpen("SPY", 1),
             self.UpdateWatchers
         )
+    
+    def get_resolution(self):
+        return Resolution.Minute if self.algorithm.LiveMode else Resolution.Daily
 
     def UpdateWatchers(self):
         # Fetch assets to watch
@@ -40,7 +47,7 @@ class WatcherInitializer:
 
     def AddSecurities(self, symbols):
         for symbol in symbols:
-            symbol.add_to_algorithm(self.algorithm)
+            self.algorithm.AddEquity(symbol.ticker, self.get_resolution())
 
     def RemoveSecurities(self, symbols):
         for symbol in symbols:
